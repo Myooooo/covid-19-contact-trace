@@ -1,0 +1,448 @@
+body, #app {
+  margin: 0;
+  padding: 0;
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background-color: white;
+  font-family: Open Sans, sans-serif;
+}
+
+header {
+  height: 3em;
+  background-color: rgba(200, 200, 200, 0.5);
+  backdrop-filter: saturate(180%) blur(20px);
+  color: black;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index : 10000;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+}
+
+h1 {
+  font-family: sans-serif;
+  font-size: 24px;
+  text-shadow: 0px 0px 5px grey;
+}
+
+h2 {
+  margin: 2em 0em;
+  font-family: sans-serif;
+  font-size: 24px;
+  text-shadow: 0px 0px 5px grey;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  text-shadow: 0px 0px 5px grey;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+a:hover {
+  color: white;
+}
+
+a.close {
+  font-size: 16px;
+  margin: 1em;
+  float: right;
+}
+
+a.link {
+  margin: 2em;
+  font-size: 14px;
+}
+
+a.icon {
+  margin: 0.5em 1em;
+}
+
+button {
+  padding: 1em;
+  border-radius: 2em;
+  border: 0px;
+  color: white;
+  font-size: 20px;
+  text-shadow: 1px 1px 5px grey;
+  box-shadow: 0px 0px 15px grey;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.2s;
+  animation: fadeIn linear 0.1s;
+}
+
+button:hover {
+  opacity: 0.9;
+  box-shadow: 0px 0px 20px grey;
+}
+
+input, select {
+  margin: 0.5em;
+  padding: 0.5em;
+  width: 60%;
+  height: 1.5em;
+  border-radius: 1em;
+  border: 0px;
+  font-size: 16px;
+  text-align: center;
+  background-color: white;
+  outline: none;
+  opacity: 0.6;
+  transition: 0.1s;
+}
+
+input:hover, select:hover{
+  opacity: 0.8;
+  box-shadow: 0px 0px 15px grey;
+}
+
+input[type="radio"] {
+  width: auto;
+  height: auto;
+}
+
+input[type="radio"]:hover {
+  box-shadow: 0px 0px 5px grey;
+}
+
+select {
+  height: auto;
+  margin: 1em 0em;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0}
+  to {opacity: 1}
+}
+
+@keyframes fadeOut {
+  from {opacity: 1}
+  to {opacity: 0}
+}
+
+@keyframes animateLeft {
+  from {left: -20%; opacity: 0}
+  to {top: 0; opacity: 0.5}
+}
+
+@keyframes animateRight {
+  from {right: -20%; opacity: 0}
+  to {top: 0; opacity: 0.5}
+}
+
+#navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  box-shadow: 0px 0px 10px grey;
+}
+
+#navbar .mid {
+  float: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#navbar .left {
+  float: left;
+}
+
+#navbar .right {
+  float: right;
+}
+
+#navbar a {
+  font-size: 20px;
+  text-align: center;
+  padding: 0.5em 1em;
+  float: left;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+#buttons {
+  width: 20%;
+  position: fixed;
+  bottom: 20%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+button.green {
+  background-color: rgb(50, 200, 0);
+}
+
+button.red {
+  background-color: red;
+}
+
+#button-check-in {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dialog {
+  border-radius: 1em;
+  background-color: rgba(200, 200, 200, 0.5);
+  box-shadow: 0px 0px 30px grey;
+  backdrop-filter: saturate(180%) blur(15px);
+  animation: fadeIn linear 0.1s;
+}
+
+.dialog button {
+  margin: 2em 0em;
+  border-radius: 1em;
+  font-size: 16px;
+  width: 20%;
+}
+
+.dialog hr {
+  background-color: lightgrey;
+  width: 60%;
+}
+
+.dialog-area {
+  width: 100%;
+  margin: 4em 0em;
+  text-align: center;
+}
+
+#login-dialog {
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.g-signin2 {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+#signup-dialog {
+  width: 30%;
+  position: absolute;
+  top: 57%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+#edit-dialog {
+  width: 30%;
+  position: absolute;
+  top: 57%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+#checkin-dialog {
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+#welcome-dialog {
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.sidebar {
+  background-color: rgba(200, 200, 200, 0.5);
+  box-shadow: 0px 0px 10px grey;
+  backdrop-filter: saturate(180%) blur(15px);
+}
+
+.sidebar-main {
+  position: fixed;
+  top: 3em;
+  width: 100%;
+  padding: 0em 1.5em;
+  box-sizing: border-box;
+}
+
+.sidebar-footer {
+  height: 3em;
+  color: black;
+  position: fixed;
+  bottom: 0;
+  padding: 0em 1.5em;
+  text-shadow: 0px 0px 5px grey;
+}
+
+.sidebar-main a.close {
+  margin: 1.5em 0em;
+}
+
+#menu {
+  height: 100%;
+  width: 20%;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  display: none;
+  animation: animateLeft linear 0.2s;
+}
+
+#profile {
+  height: 100%;
+  width: 20%;
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  display: none;
+  animation: animateRight linear 0.2s;
+}
+
+#logout-button {
+  width: 100%;
+}
+
+.popup {
+  padding: 1em;
+}
+
+#checkin-history-dialog {
+  width: 40%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+table {
+  font-family: Arial, Helvetica, sans-serif;
+	border-collapse: separate;
+ 	width: 100%;
+ 	text-align:center;
+  border: 1px solid #ddd;
+
+}
+
+table td{
+	padding: 8px;
+	border-left: 1px solid #ddd;
+}
+
+table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  color: black;
+}
+table tr:first-child th:first-child{
+	border-top-left-radius: 5px;
+}
+table tr:first-child th:last-child{
+  border-top-right-radius: 5px;
+}
+table tr:last-child td:first-child{
+  border-bottom-left-radius:5px;
+}
+table tr:last-child td:last-child{
+  border-bottom-right-radius: 5px;
+}
+
+#profile-dialog {
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+#manager-history {
+  width: 40%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+#help-dialog {
+  width: 40%;
+  height:40%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+#bottom-left{
+  position: fixed;
+  bottom: 5%;
+  left: 3%;
+}
+
+.risky {
+  height:2em;
+  width:15em;
+  border-radius:0.5em;
+  background-image: linear-gradient(to right, white 20%,red 80%);
+  padding: 0em;
+  border: 0px;
+  box-shadow: 0px 0px 0px;
+  opacity: 0.8;
+}
+
+.risky .button-left{
+  color:black;
+  font-size:16px;
+  float:left;
+  margin:0.2em 1em;
+}
+
+.risky .button-right{
+  color:white;
+  font-size:16px;
+  float:right;
+  margin:0.2em 1em;
+}
+
+#bottom-right{
+  position: fixed;
+  bottom: 5%;
+  right: 3%;
+}
+
+button.blue {
+  background-color: blue;
+  height:3em;
+  width:4.0em;
+}

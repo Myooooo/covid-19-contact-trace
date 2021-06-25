@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset = "UTF-8">
+        <title>COVID-19 Contact Trace</title>
+        <link rel="stylesheet" href="stylesheets/style.css">
+        <script src="javascripts/main.js" defer></script>
+
+        <!-- Google Web Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+        <!-- Vue.js-->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+        <!-- Mapbox -->
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+
+        <!-- Google OAuth -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <meta name="google-signin-client_id" content="492060433478-mehqltmg9ov4if33l8ceu05lv42j1hn3.apps.googleusercontent.com">
+    </head>
+
+    <body>
+        <div id="app">
+            <header>
+                <!-- Navbar -->
+                <nav id=navbar>
+                    <div class="mid">
+                        <h1>COVID-19 Contact Trace</h1>
+                    </div>
+
+                    <div class="left">
+                        <a onclick="switchMenu()"><span class="material-icons">&#xe5d2;</span></a>
+                    </div>
+
+                    <div class="right">
+                        <a id="navbar-login" onclick="switchLoginDialog()">Login</a>
+                        <a onclick="switchProfile()"><span class="material-icons">&#xe853;</span></a>
+                    </div>
+                </nav>
+            </header>
+
+            <main>
+                <div id="map"></div>
+
+                <!-- Main menu on the left -->
+                <div id="menu" class="sidebar">
+                    <div id="menu-main" class="sidebar-main">
+                        <a onclick="switchMenu()" class="close"><span class="material-icons">&#xe5cd;</span></a>
+                        <h2>Menu</h2>
+
+                        <!-- Settings -->
+                        <h3>Information</h3>
+                        <a onclick="switchCheckHistoryDialog()">Check-in History</a><br>
+                        <a onclick="switchManagerDialog()">Manager Portal</a><br>
+
+
+                        <h3>Help and Support</h3>
+                        <a onclick="switchHelpDialog()">General Guide</a><br>
+                        <a href="https://www.covid-19.sa.gov.au" target="_blank" rel="noopener noreferrer">SA Government</a><br>
+                        <a href="https://www.sahealth.sa.gov.au" target="_blank" rel="noopener noreferrer">SA Health</a><br>
+                    </div>
+                    <div id="menu-footer" class="sidebar-footer">
+                        <p>WDC Project Group 66</p>
+                    </div>
+                </div>
+
+                <!-- Profile menu on the right -->
+                <div id="profile" class="sidebar">
+                    <div id="profile-main" class="sidebar-main">
+                        <a onclick="switchProfile()" class="close"><span class="material-icons">&#xe5cd;</span></a>
+                        <h2>Profile</h2>
+
+                        <!-- User Infomation -->
+                        <div id="profile-user-info">
+                            <h3 id="profile-full-name">Please Login</h3>
+                            <a onclick="editProfile()">Edit Profile</a>
+                        </div>
+
+                        <br><br>
+
+                        <!-- Check-in History -->
+                        <div id="profile-history">
+
+                        </div>
+
+                        <br><br>
+
+                        <button id="logout-button" class="red" onclick="switchLoginDialog()">Login</button>
+                    </div>
+
+                    <div id="profile-footer" class="sidebar-footer">
+                        <p>WDC Project Group 66</p>
+                    </div>
+                </div>
+
+                <!-- Login Dialog -->
+                <div id="login-dialog" class="dialog">
+                    <a onclick="switchLoginDialog()" class="close"><span class="material-icons">&#xe5cd;</span></a>
+                    <div id="login-area" class="dialog-area">
+                        <h2>Welcome</h2>
+                        <label for="username">Username</label><br><input type="text" id="username" name="username"><br>
+                        <label for="password">Password</label><br><input type="password" id="password" name="password"><br>
+                        <a class="link">Forgot Password?</a><a class="link" onclick="switchSignupDialog()">Sign Up</a><br>
+                        <button id="login-button" class="green" onclick="login()">Login</button><br>
+                        <hr>
+                        <p>You can also login with...</p>
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    </div>
+                </div>
+
+                <!-- Signup Dialog -->
+                <div id="signup-dialog" class="dialog">
+                    <a onclick="switchSignupDialog()" class="close"><span class="material-icons">&#xe5cd;</span></a>
+                    <div id="signup-area" class="dialog-area">
+                        <h2>Sign Up</h2>
+                        <label for="su-username">Username (*)</label><br><input type="text" id="su-username" name="su-username"><br>
+                        <label for="su-password">Password (*)</label><br><input type="password" id="su-password" name="su-password"><br>
+                        <label for="su-password-c">Confirm Password (*)</label><br><input type="password" id="su-password-c" name="su-password-c"><br>
+                        <label for="su-email">Email Address (*)</label><br><input type="email" id="su-email" name="su-email"><br>
+                        <label for="su-phone">Phone Number (*)</label><br><input type="tel" id="su-phone" name="su-phone"><br>
+                        <select>
+                            <option disabled selected value="default">Registering as ...</option>
+                            <option value="su-user">User</option>
+                            <option value="su-manager">Manager</option>
+                            <option value="su-official">Official</option>
+                        </select>
+                        <br>
+                        <input type="radio" id="su-agree" name="su-agree" value="agree"><label for="su-agree">I agree to <a href="/terms" target="_blank" rel="noopener noreferrer">terms and conditions</a> (*)</label><br>
+                        <button id="signup-button" class="green">Sign-up</button>
+                    </div>
+                </div>
+
+                <!-- Checkin Dialog -->
+                <div id="checkin-dialog" class="dialog">
+                    <a onclick="switchCheckInDialog()" class="close"><span class="material-icons">&#xe5cd;</span></a>
+                    <div id="checkin-area" class="dialog-area">
+                        <h2>Check-In</h2>
+                        <label for="checkin-code">Please enter your check-in code</label><br><input type="text" id="checkin-code" name="checkin-code"><br>
+                        <button id="checkin-button" class="green" onclick="checkin()">Confirm</button>
+                    </div>
+                </div>
+
+                <!-- Welcome Dialog -->
+                <div id="welcome-dialog" class="dialog">
+                    <a onclick="switchWelcomeDialog()" class="close"><span class="material-icons">&#xe5cd;</span></a>
+                    <div id="welcome-area" class="dialog-area">
+                        <h2 id="login-alert">Welcome</h2>
+                        <button id="welcome-button" class="green" onclick="switchWelcomeDialog()">OK</button>
+                    </div>
+                </div>
+
+                <!-- Checkin History Dialog -->
+                <div id="checkin-history-dialog" class="dialog">
+                    <a onclick="switchCheckHistoryDialog()" class="close"><span class="material-icons">&#xe5cd;</span></a>
+                    <div id="checkin-history-area" class="dialog-area">
+                        <h2>Check-In History</h2>
+                        <input type="number" value="14" id="day" name="day" style="width:10%">
+                        <input type="number" value="5" id="month" name="month" style="width:10%">
+                        <input type="number" value="2021" id="year" name="year" style="width:10%">
+                        <button class="green">Search</button>
+                        <br>
+						<table>
+								<tr>
+									<th>Location</th>
+									<th>Date</th>
+								</tr>
+								<tr>
+									<td>Coles Rundle Mall</td>
+									<td>14/05/2021 4:55PM</td>
+								</tr>
+								<tr>
+									<td>Hungry Jacks Rundle Mall</td>
+									<td>14/05/2021 12:12PM</td>
+								</tr>
+								<tr>
+									<td>The University of Adelaide Hub Centre</td>
+									<td>14/05/2021 9:41AM</td>
+								</tr>
+							</table>
+                    </div>
+                </div>
+
+                 <!-- Profile Dialog -->
+                <div id="profile-dialog" class="dialog">
+                    <a onclick="switchEditProfileDialog()" class="close"><span class="material-icons">&#xe5cd;</span></a>
+                    <div id="edit-profile-area" class="dialog-area">
+                        <h2>Edit Profile</h2>
+                        <label for="ed-username">Username</label><br><input type="text" id="ed-username" name="ed-username"><br>
+                        <label for="ed-password">Password</label><br><input type="password" id="ed-password" name="ed-password"><br>
+                        <label for="ed-password-c">Confirm Password</label><br><input type="password" id="ed-password-c" name="ed-password-c"><br>
+                        <label for="ed-email">Email Address</label><br><input type="email" id="ed-email" name="ed-email"><br>
+                        <label for="ed-phone">Phone Number</label><br><input type="tel" id="ed-phone" name="ed-phone"><br>
+                        <button id="edit-profile-button" class="green">Save</button>
+                    </div>
+                </div>
+
+                 <!-- Manager Dialog -->
+                <div id="manager-history" class="dialog">
+                    <a onclick="switchManagerDialog()" class="close"><span class="material-icons">&#xe5cd;</span></a>
+                    <div id="manager-area" class="dialog-area">
+                        <h2>Check-In History of Venue</h2>
+                        <label for="codeofvenue">Code of venue:</label><input type="text" id="codeofvenue" value="002">
+                        <button class="green">Search</button><br>
+						<h3>Venue History</h3>
+						<table>
+							<tr>
+								<th>Venue</th>
+								<th>User</th>
+								<th>Date</th>
+							</tr>
+							<tr>
+								<td>Santos Stadium</td>
+								<td>user1</td>
+								<td>14/05/2021 4:55PM</td>
+							</tr>
+							<tr>
+								<td>Santos Stadium</td>
+								<td>user2</td>
+								<td>14/05/2021 6:55PM</td>
+							</tr>
+						</table>
+                    </div>
+                </div>
+
+                <!-- Help Dialog -->
+                <div id="help-dialog" class="dialog">
+                    <a onclick="switchHelpDialog()" class="close"><span class="material-icons">&#xe5cd;</span></a>
+                    <div id="help-area" class="dialog-area">
+                        <h2>Help</h2>
+                        <p>To check-in with code, click on the Check-In button in the middle. </p>
+                        <p>To login, click on the top right Login button. </p>
+                        <p>To view check-in history and useful links, click on the top left menu button. </p>
+                        <p>Hotspots with darker colour implies more confirmed cases. </p>
+                        <p>If you've got questions, feel free to <a href="mailto:test@example.com">Contact Us</a></p>
+                    </div>
+                </div>
+
+                <div id="buttons">
+                    <button id="button-check-in" class="green" onclick="switchCheckInDialog()">Check-In</button>
+                </div>
+            </main>
+
+            <footer>
+        		<div id="bottom-left">
+        			<div class="risky">
+        				<p class="button-left">Safe</p>
+        				<p class="button-right">Risky</p>
+        			</div>
+        		</div>
+        		<div id="bottom-right">
+                	<button onclick="switchHelpDialog()" class="blue">Help</button>
+                </div>
+	        </footer>
+        </div>
+    </body>
+
+</html>

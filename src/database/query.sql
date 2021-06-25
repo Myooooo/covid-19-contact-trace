@@ -1,0 +1,1 @@
+SELECT username, password, firstName, lastName, phone, email FROM User WHERE username = ? AND password = AES(?,256);
